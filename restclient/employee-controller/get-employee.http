@@ -1,18 +1,3 @@
-GET http://localhost:3001/employees
+GET http://localhost:3000/employees
 Content-Type: application/json
 
-{
-    "firstName": "Vishnuvardhan",
-    "lastName": "Sankoti",
-    "role": "Employee",
-    "emailId": "vsankoti@atiglobalservices.com",
-    "addressLine1": "2060 Cannon Heights Dr",
-    "addressLine2": "Apt 6",
-    "city": "Chesterfield",
-    "state": "MO",
-    "zipCode": "63017",
-    "phoneNumber": "+13142017054",
-    "isActive": true,
-    "hireDate": "2022-03-31T00:00:00.000Z"
-
-}

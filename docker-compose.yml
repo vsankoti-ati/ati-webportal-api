@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ati-webportal-api
+    environment:
+      - NODE_ENV=development
+      - PORT=3005
+      - AZURE_SQL_SERVER=ati-portal.database.windows.net
+      - AZURE_SQL_PORT=1433
+      - AZURE_SQL_USERNAME=atiportal-dbadmin
+      - AZURE_SQL_PASSWORD=infy@123
+      - AZURE_SQL_DATABASE=ati-portal
+      - DB_TYPE=mssql
+      - JWT_SECRET=your_jwt_secret
+      - JWT_EXPIRATION=1d
+      - AZURE_AD_TENANT_ID=your_tenant_id
+      - AZURE_AD_CLIENT_ID=your_client_id
+      - AZURE_AD_CLIENT_SECRET=your_client_secret
+      - ONEDRIVE_HR_FOLDER_PATH=/HR Documents
+    ports:
+      - "3005:3005"
+    volumes:
+      - ./uploads:/usr/src/app/uploads
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

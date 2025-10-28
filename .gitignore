@@ -17,8 +17,9 @@ lerna-debug.log*
 .env.example
 .env.*
 
-/notes.txt
+notes.txt
 
 # temp directory
 .temp
 .tmp
+

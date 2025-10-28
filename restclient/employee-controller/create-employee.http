@@ -2,6 +2,22 @@ POST http://localhost:3001/employees
 Content-Type: application/json
 
 {
+    "firstName": "Sathish",
+    "lastName": "KS",
+    "role": "Employee",
+    "emailId": "sathish.ks@atiglobalservices.com",
+    "addressLine1": "2043 Cannon Heights Dr",
+    "addressLine2": "Apt 3",
+    "city": "Chesterfield",
+    "state": "MO",
+    "zipCode": "63017",
+    "phoneNumber": "+13142017054",
+    "isActive": true,
+    "hireDate": "2022-03-31T00:00:00.000Z"
+
+}
+###
+{
     "firstName": "Srividya",
     "lastName": "Ramamoorthy",
     "role": "HR",

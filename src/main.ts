@@ -33,6 +33,11 @@ async function bootstrap() {
     transform: true,
   }));
   
-  await app.listen(3001);
+  const port = process.env.PORT || 3000;
+  // Bind to 0.0.0.0 so the app is reachable from Docker host/other containers
+  const host = '0.0.0.0';
+  await app.listen(port, host);
+  console.log(`🚀 Application is running on: http://${host}:${port}`);
+  console.log(`📚 API Documentation: http://${host}:${port}/api-docs`);
 }
 bootstrap();

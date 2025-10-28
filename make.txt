@@ -1,0 +1,14 @@
+make help       # Show all available commands
+make build      # Build Docker images
+make up         # Start containers in background
+make run        # Start containers and follow logs
+make down       # Stop and remove containers
+make restart    # Restart all containers
+
+make logs       # View logs from all containers
+make logs-app   # View app logs only
+make logs-db    # View database logs only
+make ps         # List running containers
+
+make clean      # Remove containers, volumes, and images
+make rebuild    # Full clean rebuild (down + build + up)
