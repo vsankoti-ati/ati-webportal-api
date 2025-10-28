@@ -1,3 +1,11 @@
 Instance Id: MSSQLSERVER
 
 sqlserver admin account: sa, pwd:
+
+
+
+- Create a VirtualNetwork in Azure
+- add a subnet for container instances
+
+
+ "loginServer": "atiportal.azurecr.io",
