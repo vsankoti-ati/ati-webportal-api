@@ -4,7 +4,7 @@
 POST https://login.microsoftonline.com/508e46f2-cd47-4e73-9d05-bede96f92469/oauth2/token
 Content-Type: application/x-www-form-urlencoded
 
-grant_type=client_credentials&client_id=932faa09-5bb8-41cd-a18f-5362518f37fe&client_secret=xxxxO&scope=api://6fd66934-cf5b-453a-b580-ee8ab28ca10f/default
+
 
 ###
 @ati-portal-api-token={{token.response.body.access_token}}
