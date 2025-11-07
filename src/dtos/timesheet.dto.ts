@@ -13,10 +13,16 @@ import {
 import { Type, Transform } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { TimesheetStatus } from '../enums/timesheet-status.enum';
+import { string } from 'joi';
 
 
 
 export class CreateTimesheetDto {
+  @ApiProperty({ description: 'Employee ID for the timesheet' })
+  @Type(() => String)
+  @IsNotEmpty()
+  employeeId: string;
+
   @ApiProperty({ description: 'Start date of the timesheet period' })
   @Type(() => Date)
   @IsDate()
@@ -41,10 +47,10 @@ export class UpdateTimesheetDto {
   @ApiPropertyOptional({ description: 'ID of the employee who approved the timesheet' })
   @IsOptional()
   @IsInt()
-  @Type(() => Number)
+  @Type(() => string)
   @ValidateIf((o) => o.status === TimesheetStatus.APPROVED)
   @IsNotEmpty({ message: 'Approver ID is required when status is approved' })
-  approvedByEmployeeId?: number;
+  approvedByEmployeeId?: string;
 }
 
 export class CreateTimeEntryDto {

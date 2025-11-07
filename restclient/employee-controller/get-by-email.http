@@ -1,0 +1,2 @@
+GET http://localhost:3001/employees/email/shankotai@hotmail.com
+Content-Type: application/json

@@ -1,33 +1,40 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { TimesheetService } from '../services/timesheet.service';
 import { CreateTimesheetDto, UpdateTimesheetDto } from '../dtos/timesheet.dto';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
+import { RequestUserService } from 'src/services/request-user.service';
 
 @Controller('timesheets')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class TimesheetController {
-  constructor(private readonly timesheetService: TimesheetService) {}
+  constructor(private readonly timesheetService: TimesheetService, 
+    private readonly requestUserService: RequestUserService) {}
 
   @Post()
-  create(@Request() req, @Body() createTimesheetDto: CreateTimesheetDto) {
-    return this.timesheetService.create(req.user.employeeId, createTimesheetDto);
+  create(@Body() createTimesheetDto: CreateTimesheetDto) {    
+    return this.timesheetService.create(createTimesheetDto);
   }
 
   @Get()
-  @Roles('Admin', 'HR')
+  //@Roles('ati-portal-user', 'ati-portal-admin')
   findAll() {
     return this.timesheetService.findAll();
   }
 
   @Get('my-timesheets')
-  findMyTimesheets(@Request() req) {
-    return this.timesheetService.findByEmployee(req.user.employeeId);
+  @Roles('ati-portal-user', 'ati-portal-admin')
+  findMyTimesheets(@Query('employeeId') employeeId: string) {
+    // if (!employeeId) {
+    //   const user = this.requestUserService.getUser();
+    //   employeeId = user.id;
+    // }
+    return this.timesheetService.findByEmployee(employeeId);
   }
 
   @Get('pending-approvals')
-  @Roles('Admin')
+  @Roles('ati-portal-admin')
   findPendingApprovals(@Request() req) {
     return this.timesheetService.findPendingApprovals(req.user.employeeId);
   }

@@ -2,9 +2,9 @@ import { IsNumber, IsString, IsNotEmpty, IsDate, IsOptional } from 'class-valida
 import { Type } from 'class-transformer';
 
 export class CreateLeaveApplicationDto {
-  @IsNumber()
+
   @IsNotEmpty()
-  employeeId: number;
+  employeeId: string;
 
   @Type(() => Date)
   @IsDate()

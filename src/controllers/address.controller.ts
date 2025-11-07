@@ -6,7 +6,7 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 
 @Controller('addresses')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class AddressController {
   constructor(private readonly addressService: AddressService) {}
 

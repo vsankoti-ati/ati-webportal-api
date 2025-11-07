@@ -1,21 +1,23 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Between } from 'typeorm';
+import { Repository, Between, ILike } from 'typeorm';
 import { Timesheet } from '../entities/timesheet.entity';
 import { CreateTimesheetDto, UpdateTimesheetDto } from '../dtos/timesheet.dto';
+import { RequestUserService } from './request-user.service';
 
 @Injectable()
 export class TimesheetService {
   constructor(
     @InjectRepository(Timesheet)
     private timesheetRepository: Repository<Timesheet>,
+    private readonly requestUserService: RequestUserService,
   ) {}
 
-  async create(employeeId: number, createTimesheetDto: CreateTimesheetDto): Promise<Timesheet> {
+  async create(createTimesheetDto: CreateTimesheetDto): Promise<Timesheet> {
     // Check if a timesheet already exists for the given date range
     const existingTimesheet = await this.timesheetRepository.findOne({
       where: {
-        employeeId: employeeId,
+        employeeId: ILike(createTimesheetDto.employeeId),
         startDate: Between(createTimesheetDto.startDate, createTimesheetDto.endDate),
       },
     });
@@ -25,8 +27,9 @@ export class TimesheetService {
     }
 
     const timesheet = this.timesheetRepository.create({
-      ...createTimesheetDto,
-      employeeId: employeeId,
+      startDate: createTimesheetDto.startDate,
+      endDate: createTimesheetDto.endDate,
+      employeeId: createTimesheetDto.employeeId,
       status: 'draft',
     });
     
@@ -42,9 +45,9 @@ export class TimesheetService {
     });
   }
 
-  async findByEmployee(employeeId: number): Promise<Timesheet[]> {
+  async findByEmployee(employeeId: string): Promise<Timesheet[]> {
     return await this.timesheetRepository.find({
-      where: { employeeId: employeeId },
+      where: { employeeId: ILike(employeeId) },
       relations: ['timeEntries', 'approvals'],
       order: {
         createdAt: 'DESC',
@@ -91,7 +94,7 @@ export class TimesheetService {
     }
   }
 
-  async findPendingApprovals(approverId: number): Promise<Timesheet[]> {
+  async findPendingApprovals(approverId: string): Promise<Timesheet[]> {
     return await this.timesheetRepository.find({
       where: {
         status: 'submitted',

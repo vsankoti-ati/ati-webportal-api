@@ -33,7 +33,7 @@ export class LeaveService {
     return leave;
   }
 
-  async findByEmployeeId(employeeId: number): Promise<Leave[]> {
+  async findByEmployeeId(employeeId: string): Promise<Leave[]> {
     return await this.leaveRepository.find({
       where: { employeeId: employeeId },
       relations: ['employee'],

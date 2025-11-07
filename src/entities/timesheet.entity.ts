@@ -9,7 +9,7 @@ export class Timesheet {
   id: number;
 
   @Column()
-  employeeId: number;
+  employeeId: string;
 
   @Column({ type: 'date' })
   startDate: Date;
@@ -31,7 +31,7 @@ export class Timesheet {
   approvalDate: Date;
 
   @Column({ nullable: true })
-  approvedByEmployeeId: number;
+  approvedByEmployeeId: string;
 
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

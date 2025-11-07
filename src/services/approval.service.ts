@@ -14,7 +14,7 @@ export class ApprovalService {
     private timesheetService: TimesheetService,
   ) {}
 
-  async create(timesheetId: number, approverId: number, createApprovalDto: CreateApprovalDto): Promise<Approval> {
+  async create(timesheetId: number, approverId: string, createApprovalDto: CreateApprovalDto): Promise<Approval> {
     const timesheet = await this.timesheetService.findOne(timesheetId);
 
     // Check if the approver has already submitted an approval
@@ -62,7 +62,7 @@ export class ApprovalService {
     });
   }
 
-  async findByApprover(approverId: number): Promise<Approval[]> {
+  async findByApprover(approverId: string): Promise<Approval[]> {
     return await this.approvalRepository.find({
       where: { approverEmployeeId: approverId },
       relations: ['timesheet', 'timesheet.employee'],

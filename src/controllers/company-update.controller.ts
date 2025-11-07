@@ -5,7 +5,7 @@ import { CreateCompanyUpdateDto, UpdateCompanyUpdateDto } from '../dtos/company-
 import { RolesGuard } from '../guards/roles.guard';
 
 @Controller('company-updates')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class CompanyUpdateController {
   constructor(private readonly companyUpdateService: CompanyUpdateService) {}
 

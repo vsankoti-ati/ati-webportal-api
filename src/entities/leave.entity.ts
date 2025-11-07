@@ -7,7 +7,7 @@ export class Leave {
   id: number;
 
   @Column()
-  employeeId: number;
+  employeeId: string;
 
   @Column()
   leaveType: string;

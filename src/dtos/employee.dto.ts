@@ -3,21 +3,14 @@ import {
   IsEmail,
   IsOptional,
   IsDate,
-  IsBoolean,
+  IsArray,
   MinLength,
   MaxLength,
   Matches,
   IsNotEmpty,
-  IsEnum,
 } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-
-enum EmployeeRole {
-  ADMIN = 'Admin',
-  EMPLOYEE = 'Employee',
-  HR = 'HR',
-}
 
 export class CreateEmployeeDto {
   @ApiProperty({ description: 'Employee first name' })
@@ -36,26 +29,66 @@ export class CreateEmployeeDto {
   @Transform(({ value }) => value?.trim())
   lastName: string;
 
-  @ApiProperty({ description: 'Employee role', enum: EmployeeRole })
-  @IsEnum(EmployeeRole)
-  @IsNotEmpty()
-  role: EmployeeRole;
-
   @ApiProperty({ description: 'Employee email address' })
   @IsEmail()
   @IsNotEmpty()
   @Transform(({ value }) => value?.toLowerCase().trim())
-  emailId: string;
+  email: string;
 
-  @ApiProperty({ description: 'First line of the address' })
+  @ApiProperty({ description: 'Contact phone number' })
+  @IsString()
+  @IsNotEmpty()
+  @Matches(/^\+?1?\d{9,15}$/, {
+    message: 'Phone number must be valid (e.g., +1234567890)',
+  })
+  phone: string;
+
+  @ApiProperty({ description: 'Department name' })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(100)
+  @Transform(({ value }) => value?.trim())
+  department: string;
+
+  @ApiProperty({ description: 'Job position/title' })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(100)
+  @Transform(({ value }) => value?.trim())
+  position: string;
+
+  @ApiPropertyOptional({ description: 'Manager name or ID' })
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
+  @Transform(({ value }) => value?.trim())
+  manager?: string;
+
+  @ApiProperty({ description: 'Employee hire date' })
+  @Type(() => Date)
+  @IsDate()
+  @IsNotEmpty()
+  hireDate: Date;
+
+  @ApiProperty({ description: 'Unique employee ID' })
+  @IsString()
+  @IsNotEmpty()
+  @MinLength(2)
+  @MaxLength(50)
+  @Transform(({ value }) => value?.trim())
+  employeeId: string;
+
+  @ApiProperty({ description: 'Primary address line' })
   @IsString()
   @IsNotEmpty()
   @MinLength(5)
   @MaxLength(100)
   @Transform(({ value }) => value?.trim())
-  addressLine1: string;
+  address: string;
 
-  @ApiPropertyOptional({ description: 'Second line of the address' })
+  @ApiPropertyOptional({ description: 'Secondary address line' })
   @IsOptional()
   @IsString()
   @MaxLength(100)
@@ -86,29 +119,26 @@ export class CreateEmployeeDto {
   })
   zipCode: string;
 
-  @ApiProperty({ description: 'Contact phone number' })
-  @IsString()
-  @IsNotEmpty()
-  @Matches(/^\+?1?\d{9,15}$/, {
-    message: 'Phone number must be valid (e.g., +1234567890)',
-  })
-  phoneNumber: string;
-
-  @ApiProperty({ description: 'Employee hire date' })
-  @Type(() => Date)
-  @IsDate()
-  @IsNotEmpty()
-  hireDate: Date;
-
-  @ApiPropertyOptional({ description: 'Whether the employee is active', default: true })
-  @IsBoolean()
+  @ApiPropertyOptional({ description: 'Emergency contact name' })
   @IsOptional()
-  @Transform(({ value }) => {
-    if (value === 'true') return true;
-    if (value === 'false') return false;
-    return value;
+  @IsString()
+  @MaxLength(100)
+  @Transform(({ value }) => value?.trim())
+  emergencyContact?: string;
+
+  @ApiPropertyOptional({ description: 'Emergency contact phone' })
+  @IsOptional()
+  @IsString()
+  @Matches(/^\+?1?\d{9,15}$/, {
+    message: 'Emergency phone must be valid (e.g., +1234567890)',
   })
-  isActive?: boolean = true;
+  emergencyPhone?: string;
+
+  @ApiPropertyOptional({ description: 'Employee skills', type: [String] })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  skills?: string[];
 
   @ApiPropertyOptional({ description: 'Additional comments' })
   @IsOptional()
@@ -119,41 +149,109 @@ export class CreateEmployeeDto {
 }
 
 export class UpdateEmployeeDto implements Partial<CreateEmployeeDto> {
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Employee first name' })
   @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(50)
+  @Transform(({ value }) => value?.trim())
   firstName?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Employee last name' })
   @IsOptional()
   @IsString()
   @MinLength(2)
   @MaxLength(50)
+  @Transform(({ value }) => value?.trim())
   lastName?: string;
 
-  @ApiPropertyOptional({ enum: EmployeeRole })
-  @IsOptional()
-  @IsEnum(EmployeeRole)
-  role?: EmployeeRole;
-
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Employee email address' })
   @IsOptional()
   @IsEmail()
-  emailId?: string;
+  @Transform(({ value }) => value?.toLowerCase().trim())
+  email?: string;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ description: 'Contact phone number' })
   @IsOptional()
-  @IsBoolean()
-  isActive?: boolean;
+  @IsString()
+  phone?: string;
 
-  // Add other fields as optional...
+  @ApiPropertyOptional({ description: 'Department name' })
+  @IsOptional()
+  @IsString()
+  department?: string;
+
+  @ApiPropertyOptional({ description: 'Job position/title' })
+  @IsOptional()
+  @IsString()
+  position?: string;
+
+  @ApiPropertyOptional({ description: 'Manager name or ID' })
+  @IsOptional()
+  @IsString()
+  manager?: string;
+
+  @ApiPropertyOptional({ description: 'Employee hire date' })
+  @IsOptional()
+  @Type(() => Date)
+  @IsDate()
+  hireDate?: Date;
+
+  @ApiPropertyOptional({ description: 'Unique employee ID' })
+  @IsOptional()
+  @IsString()
+  employeeId?: string;
+
+  @ApiPropertyOptional({ description: 'Primary address line' })
+  @IsOptional()
+  @IsString()
+  address?: string;
+
+  @ApiPropertyOptional({ description: 'Secondary address line' })
+  @IsOptional()
+  @IsString()
+  addressLine2?: string;
+
+  @ApiPropertyOptional({ description: 'City name' })
+  @IsOptional()
+  @IsString()
+  city?: string;
+
+  @ApiPropertyOptional({ description: 'State name' })
+  @IsOptional()
+  @IsString()
+  state?: string;
+
+  @ApiPropertyOptional({ description: 'ZIP/Postal code' })
+  @IsOptional()
+  @IsString()
+  zipCode?: string;
+
+  @ApiPropertyOptional({ description: 'Emergency contact name' })
+  @IsOptional()
+  @IsString()
+  emergencyContact?: string;
+
+  @ApiPropertyOptional({ description: 'Emergency contact phone' })
+  @IsOptional()
+  @IsString()
+  emergencyPhone?: string;
+
+  @ApiPropertyOptional({ description: 'Employee skills', type: [String] })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  skills?: string[];
+
+  @ApiPropertyOptional({ description: 'Additional comments' })
+  @IsOptional()
+  @IsString()
+  comment?: string;
 }
 
 export class EmployeeResponseDto extends CreateEmployeeDto {
-  @ApiProperty({ description: 'Employee unique identifier' })
-  id: number;
+  @ApiProperty({ description: 'Employee unique identifier (UUID)' })
+  id: string;
 
   @ApiProperty({ description: 'Record creation timestamp' })
   createdAt: Date;

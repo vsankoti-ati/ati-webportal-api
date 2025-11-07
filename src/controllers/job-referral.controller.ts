@@ -6,7 +6,7 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 
 @Controller('job-referrals')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class JobReferralController {
   constructor(private readonly jobReferralService: JobReferralService) {}
 

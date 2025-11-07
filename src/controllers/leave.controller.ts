@@ -6,7 +6,7 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 
 @Controller('leaves')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class LeaveController {
   constructor(private readonly leaveService: LeaveService) {}
 
@@ -31,7 +31,7 @@ export class LeaveController {
   @Get('employee/:id')
   @Roles('Admin', 'HR', 'Employee')
   findByEmployee(@Param('id') id: string) {
-    return this.leaveService.findByEmployeeId(+id);
+    return this.leaveService.findByEmployeeId(id);
   }
 
   @Patch(':id')

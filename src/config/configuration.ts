@@ -7,7 +7,7 @@ export default () => {
   console.log('   NODE_ENV:', process.env.NODE_ENV);
   
   return {
-    port: parseInt(process.env.PORT, 10) || 3000,
+    port: parseInt(process.env.PORT, 10) || 3001,
     nodeEnv: process.env.NODE_ENV || 'development',
     DB: {
       SYNCHRONIZE: true,
@@ -20,7 +20,7 @@ export default () => {
     port: parseInt(process.env.AZURE_SQL_PORT, 10) || 1433,
     username: process.env.AZURE_SQL_USERNAME || 'sa',
     password: process.env.AZURE_SQL_PASSWORD || 'infy@123',
-    database: process.env.AZURE_SQL_DATABASE || 'ati_webportal',
+    database: process.env.AZURE_SQL_DATABASE || 'ati_portal',
   },
   
   jwt: {

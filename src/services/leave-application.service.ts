@@ -78,7 +78,7 @@ export class LeaveApplicationService {
     return application;
   }
 
-  async findByEmployeeId(employeeId: number): Promise<LeaveApplication[]> {
+  async findByEmployeeId(employeeId: string): Promise<LeaveApplication[]> {
     return await this.leaveApplicationRepository.find({
       where: { employeeId: employeeId },
       relations: ['employee'],

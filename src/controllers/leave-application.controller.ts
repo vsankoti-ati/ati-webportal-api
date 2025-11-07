@@ -6,7 +6,7 @@ import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 
 @Controller('leave-applications')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class LeaveApplicationController {
   constructor(private readonly leaveApplicationService: LeaveApplicationService) {}
 
@@ -43,7 +43,7 @@ export class LeaveApplicationController {
         throw new Error('Employees can only view their own leave applications');
       }
     }
-    return this.leaveApplicationService.findByEmployeeId(+id);
+    return this.leaveApplicationService.findByEmployeeId(id);
   }
 
   @Patch(':id')

@@ -5,6 +5,7 @@ import { CreateEmployeeDto, UpdateEmployeeDto } from '../dtos/employee.dto';
 import { RolesGuard } from '../guards/roles.guard';
 import { Roles } from '../decorators/roles.decorator';
 import { Public } from 'src/auth/public.decorator';
+import { UUID } from 'crypto';
 
 @Controller('employees')
 @Public()
@@ -12,7 +13,7 @@ export class EmployeeController {
   constructor(private readonly employeeService: EmployeeService) {}
 
   @Post()
-  //@Roles('Admin', 'HR')
+  @Roles('Admin', 'HR')
   create(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeeService.create(createEmployeeDto);
   }
@@ -23,27 +24,27 @@ export class EmployeeController {
     return this.employeeService.findAll();
   }
 
-  @Get('profile')
-  @Roles('Employee', 'Admin', 'HR')
-  async getProfile(@Request() req) {
-    return this.employeeService.findByEmail(req.user.email);
+  @Get('email/:email')
+  //@Roles('Employee', 'Admin', 'HR')
+  async getProfileByEmail(@Param('email') email: string) {
+    return this.employeeService.findByEmail(email);
   }
 
   @Get(':id')
-  @Roles('Admin', 'HR')
-  findOne(@Param('id') id: string) {
-    return this.employeeService.findOne(+id);
+  //@Roles('Admin', 'HR')
+  findOne(@Param('id') id: UUID) {
+    return this.employeeService.findOne(id);
   }
 
   @Patch(':id')
   @Roles('Admin', 'HR')
-  update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
-    return this.employeeService.update(+id, updateEmployeeDto);
+  update(@Param('id') id: UUID, @Body() updateEmployeeDto: UpdateEmployeeDto) {
+    return this.employeeService.update(id, updateEmployeeDto);
   }
 
   @Delete(':id')
-  @Roles('Admin', 'HR')
-  remove(@Param('id') id: string) {
-    return this.employeeService.remove(+id);
+  //@Roles('Admin', 'HR')
+  remove(@Param('id') id: UUID) {
+    return this.employeeService.remove(id);
   }
 }

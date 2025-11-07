@@ -7,7 +7,7 @@ export class LeaveApplication {
   id: number;
 
   @Column()
-  employeeId: number;
+  employeeId: string;
 
   @Column()
   fromDate: Date;

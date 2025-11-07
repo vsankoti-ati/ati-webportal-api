@@ -1,3 +1,6 @@
-GET http://localhost:3000/employees
+GET https://ati-portal-api--0000004.wittywater-96695c96.eastus.azurecontainerapps.io/employees
 Content-Type: application/json
 
+###
+GET http://localhost:3001/employees
+Content-Type: application/json

@@ -10,6 +10,7 @@ import {
 } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
+import { string } from 'joi';
 
 enum LeaveType {
   EARNED = 'EARNED',
@@ -21,8 +22,8 @@ export class CreateLeaveDto {
   @ApiProperty({ description: 'Employee ID' })
   @IsInt()
   @IsNotEmpty()
-  @Type(() => Number)
-  employeeId: number;
+  @Type(() => String)
+  employeeId: string;
 
   @ApiProperty({ description: 'Type of leave', enum: LeaveType })
   @IsEnum(LeaveType)
@@ -64,10 +65,10 @@ export class LeaveResponseDto extends CreateLeaveDto {
 
 export class CreateLeaveApplicationDto {
   @ApiProperty({ description: 'Employee ID' })
-  @IsInt()
+  @IsString()
   @IsNotEmpty()
-  @Type(() => Number)
-  employeeId: number;
+  @Type(() => String)
+  employeeId: string;
 
   @ApiProperty({ description: 'Leave start date' })
   @IsNotEmpty()

@@ -24,8 +24,12 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
   
-  // Enable CORS
-  app.enableCors();
+  // Enable CORS for all origins
+  app.enableCors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+  });
   
   // Enable validation pipes globally
   app.useGlobalPipes(new ValidationPipe({
@@ -33,7 +37,7 @@ async function bootstrap() {
     transform: true,
   }));
   
-  const port = process.env.PORT || 3000;
+  const port = process.env.PORT || 3001;
   // Bind to 0.0.0.0 so the app is reachable from Docker host/other containers
   const host = '0.0.0.0';
   await app.listen(port, host);

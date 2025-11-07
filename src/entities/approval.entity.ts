@@ -11,7 +11,7 @@ export class Approval {
   timesheetId: number;
 
   @Column()
-  approverEmployeeId: number;
+  approverEmployeeId: string;
 
   @Column({
     type: 'varchar',

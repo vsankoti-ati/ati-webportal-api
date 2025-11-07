@@ -2,8 +2,8 @@ import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateCol
 
 @Entity('employee')
 export class Employee {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   firstName: string;
@@ -11,14 +11,29 @@ export class Employee {
   @Column()
   lastName: string;
 
+  @Column({ unique: true })
+  email: string;
+
   @Column()
-  role: string;
+  phone: string;
+
+  @Column()
+  department: string;
+
+  @Column()
+  position: string;
+
+  @Column({ nullable: true })
+  manager: string;
+
+  @Column({ type: 'datetime' })
+  hireDate: Date;
 
   @Column({ unique: true })
-  emailId: string;
+  employeeId: string;
 
   @Column()
-  addressLine1: string;
+  address: string;
 
   @Column({ nullable: true })
   addressLine2: string;
@@ -32,21 +47,27 @@ export class Employee {
   @Column()
   zipCode: string;
 
-  @Column()
-  phoneNumber: string;
+  @Column({ nullable: true })
+  emergencyContact: string;
 
-  @Column()
-  hireDate: Date;
+  @Column({ nullable: true })
+  emergencyPhone: string;
 
-  @Column({ default: true })
-  isActive: boolean;
+  @Column({ type: 'varchar', nullable: true })
+  skills: string; // Stored as JSON string
 
   @Column({ nullable: true })
   comment: string;
+
+
+  @Column({ nullable: false, default: 'STANDARD' })
+  role: string;
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+
 }

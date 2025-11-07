@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
@@ -45,6 +45,9 @@ import { TimesheetService } from './services/timesheet.service';
 import { databaseProviders } from './providers/database.providers';
 import { entityProviders } from './entities/entitiy.provider';
 import { JwtModule } from '@nestjs/jwt';
+import { RolesGuard } from './guards/roles.guard';
+import { RequestUserService } from './services/request-user.service';
+import { AuthMiddleware } from './middleware/auth-middleware';
 
 @Module({
   imports: [
@@ -79,10 +82,12 @@ import { JwtModule } from '@nestjs/jwt';
     TimesheetController,
   ],
   providers: [
-    {
-      provide: APP_GUARD,
-      useClass: DevAuthGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: DevAuthGuard,
+    // },
+    RequestUserService,
+    RolesGuard,
     AddressService,
     ApprovalService,
     AuthService,
@@ -104,4 +109,9 @@ import { JwtModule } from '@nestjs/jwt';
     ...entityProviders
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule{
+  configure(consumer: MiddlewareConsumer) {
+    // Configure middleware here if needed
+    consumer.apply(AuthMiddleware).forRoutes('*');
+  }
+}

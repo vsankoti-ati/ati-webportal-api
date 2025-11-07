@@ -5,7 +5,7 @@ import { CreateTimeEntryDto, UpdateTimeEntryDto } from '../dtos/time-entry.dto';
 import { RolesGuard } from '../guards/roles.guard';
 
 @Controller('time-entries')
-@UseGuards(AuthGuard('jwt'), RolesGuard)
+@UseGuards(RolesGuard)
 export class TimeEntryController {
   constructor(private readonly timeEntryService: TimeEntryService) {}
 
@@ -18,22 +18,22 @@ export class TimeEntryController {
   }
 
   @Get('timesheet/:timesheetId')
-  findByTimesheet(@Param('timesheetId') timesheetId: string) {
+  findByTimesheet(@Param('timesheetId') timesheetId: number) {
     return this.timeEntryService.findByTimesheet(+timesheetId);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.timeEntryService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.timeEntryService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTimeEntryDto: UpdateTimeEntryDto) {
-    return this.timeEntryService.update(+id, updateTimeEntryDto);
+  update(@Param('id') id: number, @Body() updateTimeEntryDto: UpdateTimeEntryDto) {
+    return this.timeEntryService.update(id, updateTimeEntryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.timeEntryService.remove(+id);
+  remove(@Param('id') id: number) {
+    return this.timeEntryService.remove(id);
   }
 }
