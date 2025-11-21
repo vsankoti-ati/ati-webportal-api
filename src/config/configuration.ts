@@ -10,9 +10,9 @@ export default () => {
     port: parseInt(process.env.PORT, 10) || 3001,
     nodeEnv: process.env.NODE_ENV || 'development',
     DB: {
-      SYNCHRONIZE: true,
-      MIGRATIONS_RUN: false,
-      DROP_SCHEMA: false, // ⚠️ Changed to false to preserve data between restarts
+      SYNCHRONIZE: false,
+      MIGRATIONS_RUN: true,
+      DROP_SCHEMA: false, // ⚠️ Set back to false after initial schema creation
     },
   
   database: {
@@ -26,6 +26,14 @@ export default () => {
   jwt: {
     secret: process.env.JWT_SECRET || 'your-super-secret-key-here',
     expiresIn: process.env.JWT_EXPIRATION || '1h',
+  },
+
+  azureAd: {
+    tenantId: process.env.AZURE_AD_TENANT_ID,
+    clientId: process.env.AZURE_AD_CLIENT_ID,
+    clientSecret: process.env.AZURE_AD_CLIENT_SECRET,
+    // Optional: specify expected roles claim
+    rolesClaim: process.env.AZURE_AD_ROLES_CLAIM || 'roles',
   },
   
   smtp: {

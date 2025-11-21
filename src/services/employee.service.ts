@@ -28,6 +28,7 @@ export class EmployeeService {
 
   async findAll(): Promise<Employee[]> {
     const employees = await this.employeeRepository.find({
+      relations: ['roles'],
       order: {
         firstName: 'ASC',
         lastName: 'ASC',
@@ -39,15 +40,21 @@ export class EmployeeService {
   }
 
   async findOne(id: string): Promise<Employee> {
-    const employee = await this.employeeRepository.findOneBy({ id });
+    const employee = await this.employeeRepository.findOne({
+      where: { id },
+      relations: ['roles']
+    });
     if (!employee) {
       throw new NotFoundException(`Employee with ID ${id} not found`);
     }
     return this.parseEmployeeSkills(employee);
   }
 
-  async findByEmail(email: string): Promise<Employee> {
-    const employee = await this.employeeRepository.findOneBy({ email });
+  public async findByEmail(email: string): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne({ 
+      where: { email },
+      relations: ['roles']
+    });
     if (!employee) {
       throw new NotFoundException(`Employee with email ${email} not found`);
     }

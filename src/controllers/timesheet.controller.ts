@@ -18,13 +18,13 @@ export class TimesheetController {
   }
 
   @Get()
-  //@Roles('ati-portal-user', 'ati-portal-admin')
+  @Roles('ati-portal-user', 'ati_portal_admin')
   findAll() {
     return this.timesheetService.findAll();
   }
 
   @Get('my-timesheets')
-  @Roles('ati-portal-user', 'ati-portal-admin')
+  //@Roles('ati-portal-user', 'ati_portal_admin')
   findMyTimesheets(@Query('employeeId') employeeId: string) {
     // if (!employeeId) {
     //   const user = this.requestUserService.getUser();
@@ -34,7 +34,7 @@ export class TimesheetController {
   }
 
   @Get('pending-approvals')
-  @Roles('ati-portal-admin')
+  @Roles('ati_portal_admin')
   findPendingApprovals(@Request() req) {
     return this.timesheetService.findPendingApprovals(req.user.employeeId);
   }
@@ -45,6 +45,7 @@ export class TimesheetController {
   }
 
   @Patch(':id')
+  @Roles('ati_portal_admin')
   update(@Param('id') id: string, @Body() updateTimesheetDto: UpdateTimesheetDto, @Request() req) {
     return this.timesheetService.update(+id, {
       ...updateTimesheetDto,
@@ -53,6 +54,7 @@ export class TimesheetController {
   }
 
   @Delete(':id')
+ @Roles('ati_portal_admin')
   remove(@Param('id') id: string) {
     return this.timesheetService.remove(+id);
   }

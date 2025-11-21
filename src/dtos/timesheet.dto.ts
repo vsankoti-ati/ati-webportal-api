@@ -24,18 +24,18 @@ export class CreateTimesheetDto {
   employeeId: string;
 
   @ApiProperty({ description: 'Start date of the timesheet period' })
-  @Type(() => Date)
-  @IsDate()
+  //@Type(() => Date)
+  //@IsDate()
   @IsNotEmpty()
-  @Transform(({ value }) => new Date(value))
-  startDate: Date;
+  //@Transform(({ value }) => new Date(value))
+  startDate: string;
 
   @ApiProperty({ description: 'End date of the timesheet period' })
-  @Type(() => Date)
-  @IsDate()
+  //@Type(() => Date)
+  //@IsDate()
   @IsNotEmpty()
-  @Transform(({ value }) => new Date(value))
-  endDate: Date;
+  //@Transform(({ value }) => new Date(value))
+  endDate: string;
 }
 
 export class UpdateTimesheetDto {

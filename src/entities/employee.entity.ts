@@ -1,4 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Role } from './role.entity';
+//import { Role } from './role.entity';
+
+
 
 @Entity('employee')
 export class Employee {
@@ -59,15 +63,23 @@ export class Employee {
   @Column({ nullable: true })
   comment: string;
 
-
-  @Column({ nullable: false, default: 'STANDARD' })
-  role: string;
+  @ManyToMany(() => Role, (role) => role.employees)
+  @JoinTable({
+    name: "employee_roles",
+    joinColumn: {
+      name: "employeeId",
+      referencedColumnName: "id"
+    },
+    inverseJoinColumn: {
+      name: "roleId",
+      referencedColumnName: "id"
+    }
+  })
+  roles: Role[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-
 }

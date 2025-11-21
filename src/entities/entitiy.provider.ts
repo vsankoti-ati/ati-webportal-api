@@ -16,6 +16,8 @@ import { Time } from "mssql";
 import { Timesheet } from "./timesheet.entity";
 import { Client } from "./client.entity";
 import { Holiday } from "./holiday.entity";
+import { Role } from "./role.entity";
+//import { Role } from "./role.entity";
 
 
 export const entityProviders = [
@@ -92,6 +94,11 @@ export const entityProviders = [
     {
         provide: 'HOLIDAY_REPOSITORY',
         useFactory: (dataSource: DataSource) => dataSource.getRepository(Holiday),
+        inject: ['DATA_SOURCE'],
+    },
+    {
+        provide: getRepositoryToken(Role),
+        useFactory: (dataSource: DataSource) => dataSource.getRepository(Role),
         inject: ['DATA_SOURCE'],
     },
 ];

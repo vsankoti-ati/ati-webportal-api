@@ -4,26 +4,26 @@ import { Type } from 'class-transformer';
 export class CreateTimeEntryDto {
   @IsNumber()
   @IsNotEmpty()
-  project_id: number;
+  projectId: number;
 
-  @Type(() => Date)
-  @IsDate()
+  // @Type(() => Date)
+  // @IsDate()
   @IsNotEmpty()
-  entry_date: Date;
-
-  @IsString()
-  @IsNotEmpty()
-  start_time: string;
+  entryDate: string;
 
   @IsString()
   @IsNotEmpty()
-  end_time: string;
+  startTime: string;
+
+  @IsString()
+  @IsNotEmpty()
+  endTime: string;
 
   @IsNumber()
   @IsNotEmpty()
   @Min(0)
   @Max(24)
-  hours_worked: number;
+  hoursWorked: number;
 
   @IsString()
   @IsOptional()

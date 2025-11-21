@@ -18,7 +18,7 @@ export class TimesheetService {
     const existingTimesheet = await this.timesheetRepository.findOne({
       where: {
         employeeId: ILike(createTimesheetDto.employeeId),
-        startDate: Between(createTimesheetDto.startDate, createTimesheetDto.endDate),
+        startDate: Between(new Date(createTimesheetDto.startDate), new Date(createTimesheetDto.endDate)),
       },
     });
 
@@ -47,7 +47,7 @@ export class TimesheetService {
 
   async findByEmployee(employeeId: string): Promise<Timesheet[]> {
     return await this.timesheetRepository.find({
-      where: { employeeId: ILike(employeeId) },
+      where: { employee: { id: ILike(employeeId) } },
       relations: ['timeEntries', 'approvals'],
       order: {
         createdAt: 'DESC',

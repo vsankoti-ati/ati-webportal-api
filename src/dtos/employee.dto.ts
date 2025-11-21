@@ -8,9 +8,11 @@ import {
   MaxLength,
   Matches,
   IsNotEmpty,
+  IsNumber,
 } from 'class-validator';
 import { Type, Transform } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { string } from 'joi';
 
 export class CreateEmployeeDto {
   @ApiProperty({ description: 'Employee first name' })
@@ -146,8 +148,14 @@ export class CreateEmployeeDto {
   @MaxLength(500)
   @Transform(({ value }) => value?.trim())
   comment?: string;
-}
 
+  @ApiPropertyOptional({ description: 'App roles to assign to employee', type: [String] })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  @Type(() => String)
+  appRoles?: string[];
+}
 export class UpdateEmployeeDto implements Partial<CreateEmployeeDto> {
   @ApiPropertyOptional({ description: 'Employee first name' })
   @IsOptional()
@@ -247,6 +255,13 @@ export class UpdateEmployeeDto implements Partial<CreateEmployeeDto> {
   @IsOptional()
   @IsString()
   comment?: string;
+
+  @ApiPropertyOptional({ description: 'Role IDs to assign to employee', type: [Number] })
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @Type(() => Number)
+  roleIds?: number[];
 }
 
 export class EmployeeResponseDto extends CreateEmployeeDto {
@@ -258,4 +273,7 @@ export class EmployeeResponseDto extends CreateEmployeeDto {
 
   @ApiProperty({ description: 'Record last update timestamp' })
   updatedAt: Date;
+
+  @ApiPropertyOptional({ description: 'Employee roles', type: 'array', items: { type: 'object' } })
+  roles?: Array<{ id: number; name: string; description?: string }>;
 }

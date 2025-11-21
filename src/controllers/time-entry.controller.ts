@@ -19,7 +19,7 @@ export class TimeEntryController {
 
   @Get('timesheet/:timesheetId')
   findByTimesheet(@Param('timesheetId') timesheetId: number) {
-    return this.timeEntryService.findByTimesheet(+timesheetId);
+    return this.  timeEntryService.findByTimesheet(+timesheetId);
   }
 
   @Get(':id')

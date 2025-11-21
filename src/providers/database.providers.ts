@@ -30,7 +30,7 @@ export const databaseProviders = [
         host: dbConfig.host,
         port: dbConfig.port,
         database: dbConfig.database,
-        entities: ['dist/entities/*.entity{.ts,.js}'],
+        entities: ['dist/src/entities/*.entity{.ts,.js}'],
         options: {
           encrypt: true,
           trustServerCertificate: true,
@@ -44,7 +44,7 @@ export const databaseProviders = [
           trustServerCertificate: true,
           validateConnection: false,
         },
-        migrations: ['dist/migrations/*{.ts,.js}'],
+        migrations: ['dist/src/migrations/*{.ts,.js}'],
         migrationsRun: configService.get<boolean>('DB.MIGRATIONS_RUN', false),
         migrationsTableName: 'migrations',
         logging: isDevelopment ? ['error', 'warn', 'schema'] : ['error', 'warn'],

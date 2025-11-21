@@ -1,2 +1,2 @@
-GET http://localhost:3001/employees/email/shankotai@hotmail.com
+GET http://localhost:3001/employees/email/vsankoti@atiglobalservices.com
 Content-Type: application/json
